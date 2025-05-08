@@ -3,6 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import icon from "@/constants/icon";
 import image from "@/constants/image";
 import { useMovies } from "@/features/tmdb/hooks/useMovies";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   ActivityIndicator,
@@ -14,6 +15,7 @@ import {
 } from "react-native";
 
 const Index = () => {
+  const router = useRouter();
   const { data: movies, isLoading, isError } = useMovies();
   return (
     <View className="bg-primary flex-1">
@@ -39,7 +41,10 @@ const Index = () => {
           <Text>Error: {isError}</Text>
         ) : (
           <View className="flex-1 mt-5">
-            <SearchBar onPress={() => {}} placeholder="Search for a movie" />
+            <SearchBar
+              onPress={() => router.push("/(tabs)/search")}
+              placeholder="Search for a movie"
+            />
             <>
               <Text className="text-lg text-white font-bold mt-5 mb-3">
                 Latest Movies
