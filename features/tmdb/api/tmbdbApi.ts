@@ -18,7 +18,20 @@ export const tmdbApi = createApi({
       }),
       transformResponse: (response: { results: any[] }) => response.results,
     }),
+
+    getMovieDetails: build.query<MovieDetails, { movieId: string }>({
+      query: (movieId) => ({
+        url: `/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`,
+        method: "GET",
+        headers: TMDB_CONFIG.headers,
+      }),
+    }),
   }),
 });
 
-export const { useLazyGetMoviesQuery, useGetMoviesQuery } = tmdbApi;
+export const {
+  useLazyGetMoviesQuery,
+  useGetMoviesQuery,
+  useLazyGetMovieDetailsQuery,
+  useGetMovieDetailsQuery,
+} = tmdbApi;
