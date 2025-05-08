@@ -10,10 +10,7 @@ const MovieCard = ({
   release_date,
 }: Movie) => {
   return (
-    <Link
-      href={{ pathname: "/movie/[id]", params: { id: String(id) } }}
-      asChild
-    >
+    <Link href={`/movie/${id}`} asChild>
       <TouchableOpacity className="w-[30%]">
         <Image
           source={{
