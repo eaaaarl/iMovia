@@ -1,7 +1,32 @@
+import icon from "@/constants/icon";
+import image from "@/constants/image";
 import { Tabs } from "expo-router";
 import React from "react";
+import { Image, ImageBackground, Text, View } from "react-native";
 
-const Layout = () => {
+function TabIcon({ focused, icon, title }: any) {
+  if (focused) {
+    return (
+      <ImageBackground
+        source={image.highlight}
+        className="flex flex-row w-full flex-1 min-w-[112px] min-h-14 mt-4 justify-center items-center rounded-full overflow-hidden"
+      >
+        <Image source={icon} tintColor="#151312" className="size-5" />
+        <Text className="text-secondary text-base font-semibold ml-2">
+          {title}
+        </Text>
+      </ImageBackground>
+    );
+  }
+
+  return (
+    <View className="size-full justify-center items-center mt-4 rounded-full">
+      <Image source={icon} tintColor="#A8B5DB" className="size-5" />
+    </View>
+  );
+}
+
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
@@ -30,6 +55,9 @@ const Layout = () => {
         options={{
           title: "Home",
           headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon={icon.home} title="Home" />
+          ),
         }}
       />
       <Tabs.Screen
@@ -37,6 +65,9 @@ const Layout = () => {
         options={{
           title: "Search",
           headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon={icon.search} title="Search" />
+          ),
         }}
       />
       <Tabs.Screen
@@ -44,10 +75,11 @@ const Layout = () => {
         options={{
           title: "Profile",
           headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon={icon.person} title="Profile" />
+          ),
         }}
       />
     </Tabs>
   );
-};
-
-export default Layout;
+}
