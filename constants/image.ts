@@ -1,3 +1,3 @@
 import bg from "@/assets/images/bg.png";
-
-export default { bg };
+import highlight from "@/assets/images/highlight.png";
+export default { bg, highlight };

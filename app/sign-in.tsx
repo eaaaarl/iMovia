@@ -2,12 +2,11 @@ import image from "@/constants/image";
 import GoogleSignIn from "@/features/auth/components/GoogleSinInButton";
 import React from "react";
 import { Image, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignIn() {
   return (
-    <SafeAreaView className="flex-1 bg-primary justify-center items-center">
-      <Image source={image.bg} className="w-full absolute z-0 h-full" />
+    <View className="flex-1 bg-primary justify-center items-center">
+      <Image source={image.bg} className=" absolute z-0 h-full w-full" />
       <View className="w-full p-4">
         <View className="justify-center items-center">
           <View
@@ -48,6 +47,6 @@ export default function SignIn() {
         </View>
         <GoogleSignIn />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
