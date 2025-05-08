@@ -7,18 +7,12 @@ export const tmdbApi = createApi({
     baseUrl: TMDB_CONFIG.BASE_URL,
   }),
 
-  /*  endpoints: (build) => ({
-    getMovies: build.query({
-      query: (query: string) =>
-        query
-          ? `/search/movie?query=${encodeURIComponent(query)}`
-          : `/discover/movie?sort_by=popularity.desc`,
-    }),
-  }), */
   endpoints: (build) => ({
     getMovies: build.query({
-      query: () => ({
-        url: "/discover/movie?sort_by=popularity.desc",
+      query: (query = "") => ({
+        url: query
+          ? `/search/movie?query=${encodeURIComponent(query)}`
+          : `/discover/movie?sort_by=popularity.desc`,
         method: "GET",
         headers: TMDB_CONFIG.headers,
       }),
@@ -27,4 +21,4 @@ export const tmdbApi = createApi({
   }),
 });
 
-export const { useGetMoviesQuery } = tmdbApi;
+export const { useLazyGetMoviesQuery, useGetMoviesQuery } = tmdbApi;
