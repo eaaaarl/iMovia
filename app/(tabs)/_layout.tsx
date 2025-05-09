@@ -1,6 +1,7 @@
 import icon from "@/constants/icon";
 import image from "@/constants/image";
-import { Tabs } from "expo-router";
+import { useAppSelector } from "@/libs/redux/hooks";
+import { Redirect, Tabs } from "expo-router";
 import React from "react";
 import { Image, ImageBackground, Text, View } from "react-native";
 
@@ -27,6 +28,12 @@ function TabIcon({ focused, icon, title }: any) {
 }
 
 export default function TabsLayout() {
+  const user = useAppSelector((state) => state.user);
+
+  if (!user || !user.uid) {
+    return <Redirect href={"/(auth)/signin"} />;
+  }
+
   return (
     <Tabs
       screenOptions={{

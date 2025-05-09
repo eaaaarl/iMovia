@@ -1,45 +1,57 @@
+import { loginWithEmail } from "@/libs/firebase";
+import { useAppDispatch } from "@/libs/redux/hooks";
+import { setUser } from "@/libs/redux/state/authSlice";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Controller, useForm } from "react-hook-form";
+import {
+    ActivityIndicator,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { z } from "zod";
+
+const signInSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+export type signInValues = z.infer<typeof signInSchema>;
 
 export default function EmailPasswordAuth() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
-  const [isLoading, setIsLoading] = useState(false); // For loading state
-
-  // Handle authentication (login or signup)
-  const handleAuth = async () => {
-    if (!email || !password) {
-      alert("Please enter both email and password");
-      return;
-    }
-
+  const [isLoading, setIsLoading] = useState(false);
+  const form = useForm({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const dispatch = useAppDispatch();
+  const handleSubmit = async (payload: signInValues) => {
     setIsLoading(true);
-
     try {
-      // Here you would implement your actual authentication logic
-      // For example, using Firebase, Auth0, or your own backend API
-
-      // Simulate API call with timeout
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // For demonstration purposes
-      console.log(`${isLogin ? "Logging in" : "Signing up"} with:`, {
-        email,
-        password,
+      const authUser = await loginWithEmail({
+        email: payload.email,
+        password: payload.password,
       });
 
-      // Reset form after successful auth
-      setEmail("");
-      setPassword("");
+      dispatch(
+        setUser({
+          displayName: authUser.user.displayName || "",
+          email: authUser.user.email || "",
+          uid: authUser.user.uid,
+        })
+      );
 
-      // You would typically navigate to another screen or set an auth state here
-      alert(`${isLogin ? "Login" : "Signup"} successful!`);
-    } catch (error: any) {
-      console.error("Authentication error:", error);
-      alert(`Error: ${error.message}`);
+      router.push("/(tabs)");
+      form.reset();
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -47,75 +59,76 @@ export default function EmailPasswordAuth() {
 
   return (
     <View style={{ width: "100%" }}>
-      <View style={{ marginBottom: 16 }}>
-        <Text style={{ color: "white", marginBottom: 8 }}>Email</Text>
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Enter your email"
-          placeholderTextColor="#a1a1aa"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
-            borderRadius: 8,
-            paddingHorizontal: 16,
-            paddingVertical: 12,
-            color: "white",
-          }}
+      <View className="mb-4">
+        <Text className="text-white mb-1.5 text-sm font-medium">Email</Text>
+        <Controller
+          control={form.control}
+          name="email"
+          render={({ field: { onChange, value, onBlur } }) => (
+            <TextInput
+              className={`bg-white/10 h-12 rounded-lg px-4 text-white ${
+                form.formState.errors.email ? "border border-red-500" : ""
+              }`}
+              placeholder="Enter your email"
+              placeholderTextColor="#a1a1aa"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
         />
+        {form.formState.errors && (
+          <Text className="text-red-500 text-xs mt-1">
+            {form.formState.errors.email?.message}
+          </Text>
+        )}
       </View>
-      <View style={{ marginBottom: 24 }}>
-        <Text style={{ color: "white", marginBottom: 8 }}>Password</Text>
-        <TextInput
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Enter your password"
-          placeholderTextColor="#a1a1aa"
-          secureTextEntry
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
-            borderRadius: 8,
-            paddingHorizontal: 16,
-            paddingVertical: 12,
-            color: "white",
-          }}
+      <View className="mb-4">
+        <Text className="text-white mb-1.5 text-sm font-medium">Password</Text>
+        <Controller
+          control={form.control}
+          name="password"
+          render={({ field: { onChange, value, onBlur } }) => (
+            <TextInput
+              className={`bg-white/10 h-12 rounded-lg px-4 text-white ${
+                form.formState.errors.password ? "border border-red-500" : ""
+              }`}
+              placeholder="Enter your password"
+              placeholderTextColor="#a1a1aa"
+              secureTextEntry
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
         />
+        {form.formState.errors.password && (
+          <Text className="text-red-500 text-xs mt-1">
+            {form.formState.errors.password.message}
+          </Text>
+        )}
       </View>
       <TouchableOpacity
-        onPress={handleAuth}
+        className={`h-12 rounded-lg justify-center items-center mb-5 ${
+          isLoading ? "bg-indigo-600/70" : "bg-indigo-600"
+        }`}
+        onPress={form.handleSubmit(handleSubmit)}
         disabled={isLoading}
-        style={{
-          backgroundColor: "#4F46E5",
-          borderRadius: 9999,
-          width: "100%",
-          paddingVertical: 16,
-          opacity: isLoading ? 0.7 : 1,
-        }}
       >
-        <Text style={{ fontSize: 18, color: "white", textAlign: "center" }}>
-          {isLoading ? "Please wait..." : isLogin ? "Sign In" : "Sign Up"}
-        </Text>
+        {isLoading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text className="text-white text-base font-semibold">Login</Text>
+        )}
       </TouchableOpacity>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          marginTop: 24,
-          marginBottom: 16,
-        }}
-      >
-        <Text style={{ color: "#a1a1aa" }}>{`Don't have an account?`}</Text>
-        <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
-          <Text style={{ color: "#4F46E5", fontWeight: "600" }}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
 
-      <View style={{ alignItems: "center", marginTop: 16 }}>
+      {/* <View style={{ alignItems: "center", marginTop: 16 }}>
         <Text style={{ color: "#a1a1aa", fontSize: 12, textAlign: "center" }}>
-          By signing up, you agree to our Terms of Service and Privacy Policy
+          By signing in, you agree to our Terms of Service and Privacy Policy
         </Text>
-      </View>
+      </View> */}
     </View>
   );
 }

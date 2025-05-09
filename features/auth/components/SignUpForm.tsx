@@ -1,4 +1,6 @@
 import { signUpWithEmail } from "@/libs/firebase";
+import { useAppDispatch } from "@/libs/redux/hooks";
+import { setUser } from "@/libs/redux/state/authSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { updateProfile } from "firebase/auth";
@@ -25,6 +27,7 @@ export type signUpValues = z.infer<typeof signUpSchema>;
 
 const SignUpForm = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(signUpSchema),
@@ -48,6 +51,14 @@ const SignUpForm = () => {
       await updateProfile(user, {
         displayName: payload.name,
       });
+
+      dispatch(
+        setUser({
+          email: user.email || "",
+          displayName: user.displayName || "",
+          uid: user.uid,
+        })
+      );
 
       toast.success("Registered successfully");
       form.reset();
@@ -157,12 +168,17 @@ const SignUpForm = () => {
         )}
       </TouchableOpacity>
 
-      {/* Sign In Link */}
       <View className="flex-row justify-center">
         <Text className="text-gray-400">{`Already have an account? `}</Text>
         <TouchableOpacity onPress={() => router.push("/(auth)/signin")}>
           <Text className="text-indigo-400 font-medium">Sign In</Text>
         </TouchableOpacity>
+      </View>
+
+      <View style={{ alignItems: "center", marginTop: 16 }}>
+        <Text style={{ color: "#a1a1aa", fontSize: 12, textAlign: "center" }}>
+          By signing in, you agree to our Terms of Service and Privacy Policy
+        </Text>
       </View>
     </View>
   );

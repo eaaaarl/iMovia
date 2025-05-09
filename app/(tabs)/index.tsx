@@ -3,7 +3,8 @@ import SearchBar from "@/components/SearchBar";
 import icon from "@/constants/icon";
 import image from "@/constants/image";
 import { useMovies } from "@/features/tmdb/hooks/useMovies";
-import { Link, useRouter } from "expo-router";
+import { useAppSelector } from "@/libs/redux/hooks";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   ActivityIndicator,
@@ -17,6 +18,9 @@ import {
 const Index = () => {
   const router = useRouter();
   const { data: movies, isLoading, isError } = useMovies();
+
+  const user = useAppSelector((state) => state.user);
+  console.log("User ", user);
   return (
     <View className="bg-primary flex-1">
       <Image
@@ -45,10 +49,6 @@ const Index = () => {
               onPress={() => router.push("/(tabs)/search")}
               placeholder="Search for a movie"
             />
-
-            <Link href={"/(auth)/signin"} className="my-5 text-white">
-              SIGNIN
-            </Link>
             <>
               <Text className="text-lg text-white font-bold mt-5 mb-3">
                 Latest Movies
