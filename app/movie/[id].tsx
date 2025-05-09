@@ -70,7 +70,6 @@ const Details = () => {
             </Text>
             <Text className="text-light-200 text-sm">{movie?.runtime}m</Text>
           </View>
-
           <View className="flex-row items-center bg-dark-100 px-2 py-1 rounded-md gap-x-1 mt-2">
             <Image source={icon.star} className="size-4" />
 
@@ -82,13 +81,12 @@ const Details = () => {
               ({movie?.vote_count} votes)
             </Text>
           </View>
-
+          
           <MovieInfo label="Overview" value={movie?.overview} />
           <MovieInfo
             label="Genres"
             value={movie?.genres?.map((g) => g.name).join(" • ") || "N/A"}
           />
-
           <View className="flex flex-row justify-between w-1/2">
             <MovieInfo
               label="Budget"
@@ -101,7 +99,6 @@ const Details = () => {
               )} million`}
             />
           </View>
-
           <MovieInfo
             label="Production Companies"
             value={

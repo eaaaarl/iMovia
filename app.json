@@ -18,7 +18,8 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.eaaaarl.imovia"
+      "package": "com.eaaaarl.imovia",
+      "permissions": ["INTERNET"]
     },
     "web": {
       "bundler": "metro",
@@ -45,6 +46,7 @@
       "eas": {
         "projectId": "5e25ed61-a2ed-4ce8-8228-a35dc4f62239"
       }
-    }
+    },
+    "owner": "eaa-aarl"
   }
 }
