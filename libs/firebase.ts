@@ -1,3 +1,4 @@
+import { FIREBASE_CONFIG } from "@/constants/config";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
 import {
@@ -10,26 +11,22 @@ import {
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBfOX4rRB1zX3L0zVrccqKTpiPGWxnaWgI",
-  authDomain: "imovia-d4c02.firebaseapp.com",
-  projectId: "imovia-d4c02",
-  storageBucket: "imovia-d4c02.firebasestorage.app",
-  messagingSenderId: "1017542184340",
-  appId: "1:1017542184340:web:bdbed99f1e3d6cc1acd381",
+  apiKey: FIREBASE_CONFIG.apiKey,
+  authDomain: FIREBASE_CONFIG.authDomain,
+  projectId: FIREBASE_CONFIG.projectId,
+  storageBucket: FIREBASE_CONFIG.storageBucket,
+  messagingSenderId: FIREBASE_CONFIG.messagingSenderId,
+  appId: FIREBASE_CONFIG.appId,
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Auth with React Native persistence
 export const authFirebase = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
-// Initialize Firestore
 export const db = getFirestore(app);
 
-// Export authentication functions
 export const signUpWithEmail = ({
   email,
   password,
@@ -46,5 +43,4 @@ export const loginWithEmail = ({
   password: string;
 }) => signInWithEmailAndPassword(authFirebase, email, password);
 
-// Default export for the Firebase app instance
 export default app;
