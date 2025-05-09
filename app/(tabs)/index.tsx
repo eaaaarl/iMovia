@@ -24,9 +24,7 @@ const Index = () => {
         className="absolute w-full z-0"
         resizeMode="cover"
       />
-      <Link href={"/sign-in"} className="mt-10">
-        SIGNIN
-      </Link>
+
       <ScrollView
         className="flex-1 px-5"
         showsVerticalScrollIndicator={false}
@@ -47,6 +45,10 @@ const Index = () => {
               onPress={() => router.push("/(tabs)/search")}
               placeholder="Search for a movie"
             />
+
+            <Link href={"/(auth)/signin"} className="my-5 text-white">
+              SIGNIN
+            </Link>
             <>
               <Text className="text-lg text-white font-bold mt-5 mb-3">
                 Latest Movies

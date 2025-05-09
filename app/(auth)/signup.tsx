@@ -1,20 +1,12 @@
 import image from "@/constants/image";
-import GoogleSignIn from "@/features/auth/components/GoogleSinInButton";
+import SignUpForm from "@/features/auth/components/SignUpForm";
 import React from "react";
 import { Image, Text, View } from "react-native";
 
 export default function SignIn() {
-  const handleLogin = async () => {
-    const result = await login();
-    if (result) {
-      refetch();
-    } else {
-      Alert.alert("Error", "Failed to login");
-    }
-  };
   return (
     <View className="flex-1 bg-primary justify-center items-center">
-      <Image source={image.bg} className=" absolute z-0 h-full w-full" />
+      <Image source={image.bg} className="absolute z-0 h-full w-full" />
       <View className="w-full p-4">
         <View className="justify-center items-center">
           <View
@@ -47,13 +39,20 @@ export default function SignIn() {
               marginTop: 24,
             }}
           >
-            Welcome to iMovia
+            Create an account
           </Text>
-          <Text style={{ color: "#a1a1aa", textAlign: "center", marginTop: 8 }}>
+          <Text
+            style={{
+              color: "#a1a1aa",
+              textAlign: "center",
+              marginTop: 8,
+              marginBottom: 32,
+            }}
+          >
             Sign in to continue to your movie experience
           </Text>
         </View>
-        <GoogleSignIn />
+        <SignUpForm />
       </View>
     </View>
   );

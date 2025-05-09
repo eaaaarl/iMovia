@@ -1,3 +1,3 @@
-import GoogleSignIn from "./components/GoogleSinInButton";
+import SignUpForm from "./components/SignUpForm";
 
-export default { GoogleSignIn };
+export default { SignUpForm };

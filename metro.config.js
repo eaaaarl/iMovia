@@ -2,17 +2,21 @@ const path = require("path");
 const { getDefaultConfig } = require("expo/metro-config");
 const { withNativeWind } = require("nativewind/metro");
 
-// Get the default Expo config
-const config = getDefaultConfig(__dirname);
+let config = getDefaultConfig(__dirname);
 
-// Add external folders to be watched
-config.watchFolders = [
-  path.resolve(__dirname, "features"), // 👈 add any folder outside `app/` that you import from
-];
+config = withNativeWind(config, { input: "./global.css" });
 
-// Optionally add extraNodeModules if using absolute imports
+config.watchFolders = [path.resolve(__dirname, "features")];
+
 config.resolver.extraNodeModules = {
   features: path.resolve(__dirname, "features"),
 };
 
-module.exports = withNativeWind(config, { input: "./global.css" });
+config.resolver.sourceExts = config.resolver.sourceExts || [];
+if (!config.resolver.sourceExts.includes("cjs")) {
+  config.resolver.sourceExts.push("cjs");
+}
+
+config.resolver.unstable_enablePackageExports = false;
+
+module.exports = config;
