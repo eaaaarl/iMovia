@@ -4,6 +4,14 @@ import React from "react";
 import { Image, Text, View } from "react-native";
 
 export default function SignIn() {
+  const handleLogin = async () => {
+    const result = await login();
+    if (result) {
+      refetch();
+    } else {
+      Alert.alert("Error", "Failed to login");
+    }
+  };
   return (
     <View className="flex-1 bg-primary justify-center items-center">
       <Image source={image.bg} className=" absolute z-0 h-full w-full" />

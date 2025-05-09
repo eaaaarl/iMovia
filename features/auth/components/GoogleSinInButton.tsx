@@ -1,11 +1,16 @@
 import icon from "@/constants/icon";
-import { useRouter } from "expo-router";
+import { login } from "@/libs/appwrite";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 export default function GoogleSignIn() {
-  const router = useRouter();
-  const handleLogin = () => {
-    router.push("/(tabs)");
+  const handleLogin = async () => {
+    const result = await login();
+    if (result) {
+      console.log("Res", result);
+      Alert.alert("Login Success");
+    } else {
+      Alert.alert("Error", "Failed to login");
+    }
   };
   return (
     <TouchableOpacity
