@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import icon from "@/constants/icon";
 import image from "@/constants/image";
 import { useMovies } from "@/features/tmdb/hooks/useMovies";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React from "react";
 import {
   ActivityIndicator,
@@ -24,7 +24,9 @@ const Index = () => {
         className="absolute w-full z-0"
         resizeMode="cover"
       />
-
+      <Link href={"/sign-in"} className="mt-10">
+        SIGNIN
+      </Link>
       <ScrollView
         className="flex-1 px-5"
         showsVerticalScrollIndicator={false}

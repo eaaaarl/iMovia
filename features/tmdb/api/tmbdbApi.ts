@@ -20,7 +20,7 @@ export const tmdbApi = createApi({
     }),
 
     getMovieDetails: build.query<MovieDetails, { movieId: string }>({
-      query: (movieId) => ({
+      query: ({ movieId }) => ({
         url: `/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`,
         method: "GET",
         headers: TMDB_CONFIG.headers,
