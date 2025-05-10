@@ -69,7 +69,6 @@ const Details = () => {
       </SafeAreaView>
 
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-        {/* Poster Image with Play Button */}
         <View className="relative">
           <Image
             source={{
