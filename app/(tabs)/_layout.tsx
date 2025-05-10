@@ -9,7 +9,7 @@ function TabIcon({ focused, icon, title }: any) {
     <View className="items-center justify-center py-1">
       <Image
         source={icon}
-        tintColor={focused ? "#db0000" : "#A8B5DB"}
+        tintColor={focused ? "#AB8BFF" : "#A8B5DB"}
         className="size-6 mb-1"
       />
     </View>
