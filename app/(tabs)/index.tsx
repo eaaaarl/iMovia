@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import icon from "@/constants/icon";
 import image from "@/constants/image";
 import { useMovies } from "@/features/tmdb/hooks/useMovies";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   ActivityIndicator,
@@ -45,10 +45,6 @@ const Index = () => {
               onPress={() => router.push("/(tabs)/search")}
               placeholder="Search for a movie"
             />
-
-            <Link href={"/(auth)/signin"} className="my-5 text-white">
-              SIGNIN
-            </Link>
             <>
               <Text className="text-lg text-white font-bold mt-5 mb-3">
                 Latest Movies
