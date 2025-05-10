@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "iMovia_",
-    "slug": "iMovia_",
+    "name": "iMovia",
+    "slug": "iMovia",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "imovia",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

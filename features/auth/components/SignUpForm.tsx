@@ -8,11 +8,11 @@ import { updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
-    ActivityIndicator,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { toast } from "sonner-native";
 import { z } from "zod";
@@ -46,7 +46,7 @@ const SignUpForm = () => {
     },
   });
 
-  const handeLogin = async (payload: signUpValues) => {
+  const handeSignup = async (payload: signUpValues) => {
     setLoading(true);
     try {
       const userCredential = await signUpWithEmail({
@@ -165,7 +165,7 @@ const SignUpForm = () => {
           </Text>
         )}
       </View>
-      <View className="mb-4">
+      <View className="mt-4">
         <Text className="text-white mb-1.5 text-sm font-medium">
           Confirm Password
         </Text>
@@ -194,12 +194,12 @@ const SignUpForm = () => {
           </Text>
         )}
       </View>
-      {/* Submit Button */}
+
       <TouchableOpacity
-        className={`h-12 rounded-lg justify-center items-center mb-5 ${
+        className={`h-12 rounded-lg justify-center items-center mt-10 ${
           loading ? "bg-indigo-600/70" : "bg-indigo-600"
         }`}
-        onPress={form.handleSubmit(handeLogin)}
+        onPress={form.handleSubmit(handeSignup)}
         disabled={loading}
       >
         {loading ? (
@@ -209,7 +209,7 @@ const SignUpForm = () => {
         )}
       </TouchableOpacity>
 
-      <View className="flex-row justify-center">
+      <View className="flex-row justify-center mt-4">
         <Text className="text-gray-400">{`Already have an account? `}</Text>
         <TouchableOpacity onPress={() => router.push("/(auth)/signin")}>
           <Text className="text-indigo-400 font-medium">Sign In</Text>
