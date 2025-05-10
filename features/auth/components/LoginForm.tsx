@@ -49,7 +49,7 @@ export default function EmailPasswordAuth() {
         })
       );
 
-      router.push("/(tabs)");
+      router.replace("/(tabs)");
       form.reset();
     } catch (error: any) {
       if (error.code === "auth/invalid-credential") {
@@ -115,6 +115,7 @@ export default function EmailPasswordAuth() {
           </Text>
         )}
       </View>
+
       <TouchableOpacity
         className={`h-12 rounded-lg justify-center items-center mt-4 ${
           isLoading ? "bg-indigo-600/70" : "bg-indigo-600"
@@ -128,6 +129,16 @@ export default function EmailPasswordAuth() {
           <Text className="text-white text-base font-semibold">Login</Text>
         )}
       </TouchableOpacity>
+
+      <View className="w-full flex justify-center items-center my-4">
+        <TouchableOpacity
+          onPress={() => toast.info("This feature will be available soon!")}
+          disabled={isLoading}
+          className="text-indigo-400 text-sm"
+        >
+          <Text className="text-white font-semibold">Forgot password?</Text>
+        </TouchableOpacity>
+      </View>
 
       <View className="flex-row justify-center mt-4">
         <Text className="text-gray-400">{`Don't have an account? `}</Text>

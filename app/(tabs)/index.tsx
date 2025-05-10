@@ -4,7 +4,7 @@ import TrendingCard from "@/components/TrendingCard";
 import icon from "@/constants/icon";
 import image from "@/constants/image";
 import { useGetTrendingQuery } from "@/features/movie/api/movieApi";
-import { useMovies } from "@/features/tmdb/hooks/useMovies";
+import { useGetMoviesQuery } from "@/features/tmdb/api/tmbdbApi";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -18,7 +18,7 @@ import {
 
 const Index = () => {
   const router = useRouter();
-  const { data: movies, isLoading, isError } = useMovies();
+  const { data: movies, isLoading, isError } = useGetMoviesQuery("");
 
   const {
     data: trendingMovies,
@@ -71,7 +71,7 @@ const Index = () => {
                   renderItem={({ item, index }) => (
                     <TrendingCard movie={item} index={index} />
                   )}
-                  keyExtractor={(item) => item?.id}
+                  keyExtractor={(item) => item.id.toString()}
                   ItemSeparatorComponent={() => <View className="w-4" />}
                 />
               </View>
