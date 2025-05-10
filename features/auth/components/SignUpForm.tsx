@@ -62,6 +62,8 @@ const SignUpForm = () => {
 
       toast.success("Registered successfully");
       form.reset();
+
+      router.push("/(tabs)");
     } catch (error) {
       console.error(error);
     } finally {

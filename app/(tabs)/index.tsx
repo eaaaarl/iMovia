@@ -3,7 +3,6 @@ import SearchBar from "@/components/SearchBar";
 import icon from "@/constants/icon";
 import image from "@/constants/image";
 import { useMovies } from "@/features/tmdb/hooks/useMovies";
-import { useAppSelector } from "@/libs/redux/hooks";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -18,9 +17,6 @@ import {
 const Index = () => {
   const router = useRouter();
   const { data: movies, isLoading, isError } = useMovies();
-
-  const user = useAppSelector((state) => state.user);
-  console.log("User ", user);
   return (
     <View className="bg-primary flex-1">
       <Image

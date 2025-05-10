@@ -124,11 +124,18 @@ export default function EmailPasswordAuth() {
         )}
       </TouchableOpacity>
 
-      {/* <View style={{ alignItems: "center", marginTop: 16 }}>
+      <View className="flex-row justify-center">
+        <Text className="text-gray-400">{`Don't have an account? `}</Text>
+        <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
+          <Text className="text-indigo-400 font-medium">Sign up</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={{ alignItems: "center", marginTop: 16 }}>
         <Text style={{ color: "#a1a1aa", fontSize: 12, textAlign: "center" }}>
           By signing in, you agree to our Terms of Service and Privacy Policy
         </Text>
-      </View> */}
+      </View>
     </View>
   );
 }
