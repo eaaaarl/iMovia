@@ -1,3 +1,4 @@
+import icon from "@/constants/icon";
 import image from "@/constants/image";
 import EmailPasswordAuth from "@/features/auth/components/LoginForm";
 import React from "react";
@@ -9,28 +10,7 @@ export default function SignIn() {
       <Image source={image.bg} className="absolute z-0 h-full w-full" />
       <View className="w-full p-4">
         <View className="justify-center items-center">
-          <View
-            style={{
-              width: 96,
-              height: 96,
-              backgroundColor: "#4F46E5",
-              borderRadius: 16,
-              alignItems: "center",
-              justifyContent: "center",
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.2,
-              shadowRadius: 4,
-              elevation: 3,
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>
-              i
-            </Text>
-            <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
-              Movia
-            </Text>
-          </View>
+          <Image source={icon.logo} resizeMode="contain" />
           <Text
             style={{
               fontSize: 24,

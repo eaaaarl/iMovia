@@ -1,3 +1,4 @@
 import bg from "@/assets/images/bg.png";
 import highlight from "@/assets/images/highlight.png";
-export default { bg, highlight };
+import rankingGradient from "@/assets/images/rankingGradient.png";
+export default { bg, highlight, rankingGradient };
