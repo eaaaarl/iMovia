@@ -6,12 +6,13 @@ import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
-    ActivityIndicator,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
+import { toast } from "sonner-native";
 import { z } from "zod";
 
 const signInSchema = z.object({
@@ -50,15 +51,19 @@ export default function EmailPasswordAuth() {
 
       router.push("/(tabs)");
       form.reset();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error.code === "auth/invalid-credential") {
+        toast.error("Invalid email and password");
+      } else {
+        console.log("Authentication error:", error.message);
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <View style={{ width: "100%" }}>
+    <View className="w-full">
       <View className="mb-4">
         <Text className="text-white mb-1.5 text-sm font-medium">Email</Text>
         <Controller
@@ -111,7 +116,7 @@ export default function EmailPasswordAuth() {
         )}
       </View>
       <TouchableOpacity
-        className={`h-12 rounded-lg justify-center items-center mb-5 ${
+        className={`h-12 rounded-lg justify-center items-center mt-4 ${
           isLoading ? "bg-indigo-600/70" : "bg-indigo-600"
         }`}
         onPress={form.handleSubmit(handleSubmit)}
@@ -124,7 +129,7 @@ export default function EmailPasswordAuth() {
         )}
       </TouchableOpacity>
 
-      <View className="flex-row justify-center">
+      <View className="flex-row justify-center mt-4">
         <Text className="text-gray-400">{`Don't have an account? `}</Text>
         <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
           <Text className="text-indigo-400 font-medium">Sign up</Text>

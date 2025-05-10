@@ -8,20 +8,27 @@ import { updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
-    ActivityIndicator,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { toast } from "sonner-native";
 import { z } from "zod";
+import { FIREBASE_AUTH_ERRORS } from "../utils/firebaseAuthErrors";
 
-const signUpSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  name: z.string().min(4, "Name must be at least 4 characters"),
-});
+const signUpSchema = z
+  .object({
+    email: z.string().email("Please enter a valid email address"),
+    name: z.string().min(4, "Name must be at least 4 characters"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Password don't match",
+    path: ["confirmPassword"],
+  });
 
 export type signUpValues = z.infer<typeof signUpSchema>;
 
@@ -34,11 +41,12 @@ const SignUpForm = () => {
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
       name: "",
     },
   });
 
-  const handeLogin = async (payload: signUpValues) => {
+  const handeSignup = async (payload: signUpValues) => {
     setLoading(true);
     try {
       const userCredential = await signUpWithEmail({
@@ -64,8 +72,11 @@ const SignUpForm = () => {
       form.reset();
 
       router.push("/(tabs)");
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      const errMessage =
+        FIREBASE_AUTH_ERRORS[error.code] ||
+        "Something went wrong, please try again";
+      toast.error(errMessage);
     } finally {
       setLoading(false);
     }
@@ -154,13 +165,41 @@ const SignUpForm = () => {
           </Text>
         )}
       </View>
+      <View className="mt-4">
+        <Text className="text-white mb-1.5 text-sm font-medium">
+          Confirm Password
+        </Text>
+        <Controller
+          control={form.control}
+          name="confirmPassword"
+          render={({ field: { onChange, value, onBlur } }) => (
+            <TextInput
+              className={`bg-white/10 h-12 rounded-lg px-4 text-white ${
+                form.formState.errors.confirmPassword
+                  ? "border border-red-500"
+                  : ""
+              }`}
+              placeholder="Confirm your password"
+              placeholderTextColor="#a1a1aa"
+              secureTextEntry
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
+        />
+        {form.formState.errors.confirmPassword && (
+          <Text className="text-red-500 text-xs mt-1">
+            {form.formState.errors.confirmPassword.message}
+          </Text>
+        )}
+      </View>
 
-      {/* Submit Button */}
       <TouchableOpacity
-        className={`h-12 rounded-lg justify-center items-center mb-5 ${
+        className={`h-12 rounded-lg justify-center items-center mt-10 ${
           loading ? "bg-indigo-600/70" : "bg-indigo-600"
         }`}
-        onPress={form.handleSubmit(handeLogin)}
+        onPress={form.handleSubmit(handeSignup)}
         disabled={loading}
       >
         {loading ? (
@@ -170,7 +209,7 @@ const SignUpForm = () => {
         )}
       </TouchableOpacity>
 
-      <View className="flex-row justify-center">
+      <View className="flex-row justify-center mt-4">
         <Text className="text-gray-400">{`Already have an account? `}</Text>
         <TouchableOpacity onPress={() => router.push("/(auth)/signin")}>
           <Text className="text-indigo-400 font-medium">Sign In</Text>

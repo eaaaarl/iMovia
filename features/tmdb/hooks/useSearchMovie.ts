@@ -1,3 +1,4 @@
+import { useUpdateSearchMutation } from "@/features/movie/api/movieApi";
 import { useEffect, useState } from "react";
 import { useLazyGetMoviesQuery } from "../api/tmbdbApi";
 
@@ -10,15 +11,24 @@ export const useSearchMovie = () => {
     setSearchQuery(text);
   };
 
+  const [updateSearchCount] = useUpdateSearchMutation();
+
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
+    const timeoutId = setTimeout(async () => {
       if (searchQuery.trim()) {
         trigger(searchQuery);
+
+        if (movies?.length > 0 && movies?.[0]) {
+          await updateSearchCount({
+            query: searchQuery,
+            movie: movies[0],
+          }).unwrap();
+        }
       }
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery, trigger]);
+  }, [searchQuery, trigger, movies, updateSearchCount]);
 
   return {
     searchQuery,

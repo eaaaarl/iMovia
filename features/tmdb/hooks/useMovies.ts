@@ -1,10 +1,10 @@
 import { useGetMoviesQuery } from "../api/tmbdbApi";
 
 export const useMovies = () => {
-  const { data, isError, isLoading } = useGetMoviesQuery("");
+  const { data: MovieQuery, isError, isLoading } = useGetMoviesQuery("");
 
   return {
-    data,
+    data: MovieQuery,
     isError,
     isLoading,
   };
