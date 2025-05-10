@@ -12,6 +12,7 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { toast } from "sonner-native";
 import { z } from "zod";
 
 const signInSchema = z.object({
@@ -50,8 +51,12 @@ export default function EmailPasswordAuth() {
 
       router.push("/(tabs)");
       form.reset();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error.code === "auth/invalid-credential") {
+        toast.error("Invalid email and password");
+      } else {
+        console.log("Authentication error:", error.message);
+      }
     } finally {
       setIsLoading(false);
     }
