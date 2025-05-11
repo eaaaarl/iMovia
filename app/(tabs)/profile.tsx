@@ -1,10 +1,7 @@
 import image from "@/constants/image";
-import { authFirebase } from "@/libs/firebase";
-import { useAppDispatch, useAppSelector } from "@/libs/redux/hooks";
-import { clearUser } from "@/libs/redux/state/authSlice";
+import { useProfile } from "@/features/auth/hooks/useProfile";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { signOut } from "firebase/auth";
-import React, { useState } from "react";
+import React from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -16,63 +13,31 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const DEFAULT_AVATAR = "https://via.placeholder.com/150";
 
 const Profile = () => {
-  const dispatch = useAppDispatch();
-  const { uid, email, displayName } = useAppSelector((state) => state.user);
-  const [isLoading, setIsLoading] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
-  const insets = useSafeAreaInsets();
-
-  // Refresh user data function (placeholder for future implementation)
-  const onRefresh = React.useCallback(async () => {
-    setRefreshing(true);
-    // Here you would typically fetch fresh data from Firebase
-    // For now just simulating a refresh
-    setTimeout(() => setRefreshing(false), 1500);
-  }, []);
-
-  const handleSignOut = async () => {
-    try {
-      setIsLoading(true);
-      await signOut(authFirebase);
-      dispatch(clearUser());
-    } catch (error) {
-      Alert.alert("Error", "Failed to sign out. Please try again.");
-      console.error("Sign out error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const confirmSignOut = () => {
-    Alert.alert("Sign Out", "Are you sure you want to sign out?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Sign Out", onPress: handleSignOut, style: "destructive" },
-    ]);
-  };
-
-  const handleEditProfile = () => {
-    Alert.alert("Edit Profile", "This feature will be available soon!", [
-      { text: "OK", style: "default" },
-    ]);
-  };
-
+  const {
+    confirmSignOut,
+    handleEditProfile,
+    onRefresh,
+    refreshing,
+    insets,
+    displayName,
+    email,
+    isLoading,
+    uid,
+  } = useProfile();
   return (
     <View className="flex-1 bg-primary">
       <StatusBar barStyle="light-content" />
 
-      {/* Background Image */}
       <Image
         source={image.bg}
         className="absolute w-full h-full"
         resizeMode="cover"
       />
 
-      {/* Content Container */}
       <ScrollView
         className="flex-1"
         contentContainerStyle={{ paddingBottom: 30 }}
@@ -80,16 +45,13 @@ const Profile = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {/* Header Section with safe area padding */}
         <View style={{ paddingTop: insets.top + 20 }} className="px-4 pb-6">
           <Text className="text-white text-2xl font-bold text-center">
             My Profile
           </Text>
         </View>
 
-        {/* Profile Card */}
         <View className="mx-4 bg-white/90 backdrop-blur-md rounded-xl shadow-lg overflow-hidden border border-primary/20">
-          {/* Profile Header */}
           <View className="px-4 pt-6 pb-4 items-center bg-primary/10">
             <View className="bg-white rounded-full p-1 shadow-md border-2 border-primary/30">
               <Image
@@ -125,10 +87,8 @@ const Profile = () => {
             )}
           </View>
 
-          {/* Divider */}
           <View className="h-0.5 bg-primary/10" />
 
-          {/* User Information Section */}
           <View className="px-4 py-4">
             <Text className="text-primary/70 text-xs uppercase font-semibold mb-2">
               Account Information
@@ -179,7 +139,6 @@ const Profile = () => {
           </View>
         </View>
 
-        {/* Options Card */}
         <View className="mx-4 mt-4 bg-white/90 backdrop-blur-md rounded-xl shadow-lg overflow-hidden border border-primary/20">
           <Text className="px-4 pt-4 pb-2 text-primary/70 text-xs uppercase font-semibold">
             Account Settings
@@ -288,7 +247,6 @@ const Profile = () => {
           </TouchableOpacity>
         </View>
 
-        {/* App Info */}
         <View className="mt-8 items-center">
           <Text className="text-xs text-white/60">App Version 1.0.0</Text>
         </View>

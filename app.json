@@ -41,12 +41,12 @@
     "experiments": {
       "typedRoutes": true
     },
+    "owner": "eaa-aarl",
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "5e25ed61-a2ed-4ce8-8228-a35dc4f62239"
+        "projectId": "98e8c09b-f6c5-4fa8-b8ea-efd8fbfa14a9"
       }
-    },
-    "owner": "eaa-aarl"
+    }
   }
 }
