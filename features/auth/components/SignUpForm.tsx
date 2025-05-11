@@ -1,12 +1,6 @@
-import { signUpWithEmail } from "@/libs/firebase";
-import { useAppDispatch } from "@/libs/redux/hooks";
-import { setUser } from "@/libs/redux/state/authSlice";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "expo-router";
-import { updateProfile } from "firebase/auth";
-
-import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import { Controller } from "react-hook-form";
 import {
   ActivityIndicator,
   Text,
@@ -14,77 +8,23 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { toast } from "sonner-native";
-import { z } from "zod";
-import { FIREBASE_AUTH_ERRORS } from "../utils/firebaseAuthErrors";
-
-const signUpSchema = z
-  .object({
-    email: z.string().email("Please enter a valid email address"),
-    name: z.string().min(4, "Name must be at least 4 characters"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Password don't match",
-    path: ["confirmPassword"],
-  });
-
-export type signUpValues = z.infer<typeof signUpSchema>;
+import { useSignUp } from "../hooks/useSignUp";
 
 const SignUpForm = () => {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
-  const form = useForm({
-    resolver: zodResolver(signUpSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      name: "",
-    },
-  });
-
-  const handeSignup = async (payload: signUpValues) => {
-    setLoading(true);
-    try {
-      const userCredential = await signUpWithEmail({
-        email: payload.email,
-        password: payload.password,
-      });
-
-      const user = userCredential.user;
-
-      await updateProfile(user, {
-        displayName: payload.name,
-      });
-
-      dispatch(
-        setUser({
-          email: user.email || "",
-          displayName: user.displayName || "",
-          uid: user.uid,
-        })
-      );
-
-      toast.success("Registered successfully");
-      form.reset();
-
-      router.push("/(tabs)");
-    } catch (error: any) {
-      const errMessage =
-        FIREBASE_AUTH_ERRORS[error.code] ||
-        "Something went wrong, please try again";
-      toast.error(errMessage);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  const { handeSignup, loading, form, toast, router } = useSignUp();
   return (
     <View className="w-full p-4  rounded-2xl">
-      {/* Name Input */}
+      {toast !== "" && (
+        <View className="bg-blue-500/90 rounded-md p-3 mb-4 flex-row items-center">
+          <Ionicons
+            name="alert-circle-sharp"
+            size={20}
+            color="white"
+            style={{ marginRight: 8 }}
+          />
+          <Text className="text-white text-sm flex-1">{toast}</Text>
+        </View>
+      )}
       <View className="mb-4">
         <Text className="text-white mb-1.5 text-sm font-medium">Name</Text>
         <Controller

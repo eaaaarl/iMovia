@@ -1,10 +1,6 @@
-import { loginWithEmail } from "@/libs/firebase";
-import { useAppDispatch } from "@/libs/redux/hooks";
-import { setUser } from "@/libs/redux/state/authSlice";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import { Controller } from "react-hook-form";
 import {
   ActivityIndicator,
   Text,
@@ -12,58 +8,23 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { toast } from "sonner-native";
-import { z } from "zod";
-
-const signInSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
-
-export type signInValues = z.infer<typeof signInSchema>;
+import { useLogin } from "../hooks/useLogin";
 
 export default function EmailPasswordAuth() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const form = useForm({
-    resolver: zodResolver(signInSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-  const dispatch = useAppDispatch();
-  const handleSubmit = async (payload: signInValues) => {
-    setIsLoading(true);
-    try {
-      const authUser = await loginWithEmail({
-        email: payload.email,
-        password: payload.password,
-      });
-
-      dispatch(
-        setUser({
-          displayName: authUser.user.displayName || "",
-          email: authUser.user.email || "",
-          uid: authUser.user.uid,
-        })
-      );
-
-      router.replace("/(tabs)");
-      form.reset();
-    } catch (error: any) {
-      if (error.code === "auth/invalid-credential") {
-        toast.error("Invalid email and password");
-      } else {
-        console.log("Authentication error:", error.message);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  const { handleSubmit, isLoading, router, toast, form, setToast } = useLogin();
   return (
     <View className="w-full">
+      {toast !== "" && (
+        <View className="bg-blue-500/90 rounded-md p-3 mb-4 flex-row items-center">
+          <Ionicons
+            name="information-circle"
+            size={20}
+            color="white"
+            style={{ marginRight: 8 }}
+          />
+          <Text className="text-white text-sm flex-1">{toast}</Text>
+        </View>
+      )}
       <View className="mb-4">
         <Text className="text-white mb-1.5 text-sm font-medium">Email</Text>
         <Controller
@@ -132,7 +93,7 @@ export default function EmailPasswordAuth() {
 
       <View className="w-full flex justify-center items-center my-4">
         <TouchableOpacity
-          onPress={() => toast.info("This feature will be available soon!")}
+          onPress={() => setToast("This feature will be available soon!")}
           disabled={isLoading}
           className="text-indigo-400 text-sm"
         >
