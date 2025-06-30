@@ -8,7 +8,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const useProfile = () => {
   const dispatch = useAppDispatch();
-  const { uid, email, displayName } = useAppSelector((state) => state.user);
+  const { uid, email, displayName, photoURL } = useAppSelector(
+    (state) => state.user
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const insets = useSafeAreaInsets();
@@ -54,5 +56,6 @@ export const useProfile = () => {
     email,
     uid,
     isLoading,
+    photoURL,
   };
 };

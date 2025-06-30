@@ -6,9 +6,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { useLogin } from "../hooks/useLogin";
+import GoogleSignInButton from "./GoogleSignInButton";
 
 export default function EmailPasswordAuth() {
   const { handleSubmit, isLoading, router, toast, form, setToast } = useLogin();
@@ -32,9 +33,8 @@ export default function EmailPasswordAuth() {
           name="email"
           render={({ field: { onChange, value, onBlur } }) => (
             <TextInput
-              className={`bg-white/10 h-12 rounded-lg px-4 text-white ${
-                form.formState.errors.email ? "border border-red-500" : ""
-              }`}
+              className={`bg-white/10 h-12 rounded-lg px-4 text-white ${form.formState.errors.email ? "border border-red-500" : ""
+                }`}
               placeholder="Enter your email"
               placeholderTextColor="#a1a1aa"
               keyboardType="email-address"
@@ -51,6 +51,7 @@ export default function EmailPasswordAuth() {
           </Text>
         )}
       </View>
+
       <View className="mb-4">
         <Text className="text-white mb-1.5 text-sm font-medium">Password</Text>
         <Controller
@@ -58,9 +59,8 @@ export default function EmailPasswordAuth() {
           name="password"
           render={({ field: { onChange, value, onBlur } }) => (
             <TextInput
-              className={`bg-white/10 h-12 rounded-lg px-4 text-white ${
-                form.formState.errors.password ? "border border-red-500" : ""
-              }`}
+              className={`bg-white/10 h-12 rounded-lg px-4 text-white ${form.formState.errors.password ? "border border-red-500" : ""
+                }`}
               placeholder="Enter your password"
               placeholderTextColor="#a1a1aa"
               secureTextEntry
@@ -78,9 +78,8 @@ export default function EmailPasswordAuth() {
       </View>
 
       <TouchableOpacity
-        className={`h-12 rounded-lg justify-center items-center mt-4 ${
-          isLoading ? "bg-indigo-600/70" : "bg-indigo-600"
-        }`}
+        className={`h-12 rounded-lg justify-center items-center mt-4 ${isLoading ? "bg-indigo-600/70" : "bg-indigo-600"
+          }`}
         onPress={form.handleSubmit(handleSubmit)}
         disabled={isLoading}
       >
@@ -90,6 +89,14 @@ export default function EmailPasswordAuth() {
           <Text className="text-white text-base font-semibold">Login</Text>
         )}
       </TouchableOpacity>
+
+      <View className="flex-row items-center my-6">
+        <View className="flex-1 h-[1px] bg-white/10" />
+        <Text className="mx-4 text-white/60">or</Text>
+        <View className="flex-1 h-[1px] bg-white/10" />
+      </View>
+
+      <GoogleSignInButton />
 
       <View className="w-full flex justify-center items-center my-4">
         <TouchableOpacity

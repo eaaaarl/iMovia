@@ -27,7 +27,9 @@ const Profile = () => {
     email,
     isLoading,
     uid,
+    photoURL,
   } = useProfile();
+
   return (
     <View className="flex-1 bg-primary">
       <StatusBar barStyle="light-content" />
@@ -55,20 +57,9 @@ const Profile = () => {
           <View className="px-4 pt-6 pb-4 items-center bg-primary/10">
             <View className="bg-white rounded-full p-1 shadow-md border-2 border-primary/30">
               <Image
-                source={{ uri: DEFAULT_AVATAR }}
+                source={{ uri: photoURL || DEFAULT_AVATAR }}
                 className="w-28 h-28 rounded-full"
               />
-              <TouchableOpacity
-                className="absolute right-0 bottom-0 bg-primary rounded-full p-2"
-                onPress={() =>
-                  Alert.alert(
-                    "Update Photo",
-                    "This feature will be added soon!"
-                  )
-                }
-              >
-                <Ionicons name="camera" size={18} color="#fff" />
-              </TouchableOpacity>
             </View>
 
             <Text className="text-xl font-bold mt-4 text-primary">
@@ -78,13 +69,13 @@ const Profile = () => {
               {email || "No email available"}
             </Text>
 
-            {uid && (
-              <View className="flex-row items-center mt-1 bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
-                <Text className="text-xs text-primary/70">
-                  ID: {uid.substring(0, 6)}...{uid.substring(uid.length - 4)}
-                </Text>
-              </View>
-            )}
+
+            <View className="flex-row items-center mt-1 bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
+              <Text className="text-xs text-primary/70 font-bold">
+                ID: {uid.substring(0, 6)}...{uid.substring(uid.length - 4)}
+              </Text>
+            </View>
+
           </View>
 
           <View className="h-0.5 bg-primary/10" />
