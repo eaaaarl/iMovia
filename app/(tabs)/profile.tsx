@@ -60,17 +60,6 @@ const Profile = () => {
                 source={{ uri: photoURL || DEFAULT_AVATAR }}
                 className="w-28 h-28 rounded-full"
               />
-              <TouchableOpacity
-                className="absolute right-0 bottom-0 bg-primary rounded-full p-2"
-                onPress={() =>
-                  Alert.alert(
-                    "Update Photo",
-                    "This feature will be added soon!"
-                  )
-                }
-              >
-                <Ionicons name="camera" size={18} color="#fff" />
-              </TouchableOpacity>
             </View>
 
             <Text className="text-xl font-bold mt-4 text-primary">
