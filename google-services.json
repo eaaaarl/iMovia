@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1017542184340",
+    "project_id": "imovia-d4c02",
+    "storage_bucket": "imovia-d4c02.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017542184340:android:3aa89002a92d0d48acd381",
+        "android_client_info": {
+          "package_name": "com.eaaaarl.imovia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017542184340-8ot5uc1l9ggp228emv73nqha8umj2i3n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eaaaarl.imovia",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1017542184340-8tgluotj99cm8pp7vmchc6dkb6hdcf9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNCppguQK5Pf_axenkLGeD5N0ti2JqUUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017542184340-8tgluotj99cm8pp7vmchc6dkb6hdcf9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

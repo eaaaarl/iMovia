@@ -7,6 +7,7 @@ import person from "@/assets/icon/person.png";
 import play from "@/assets/icon/play.png";
 import search from "@/assets/icon/search.png";
 import star from "@/assets/icon/star.png";
+
 export default {
   google,
   home,

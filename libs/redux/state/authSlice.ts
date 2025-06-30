@@ -4,12 +4,14 @@ export interface UserState {
   uid: string;
   displayName: string;
   email: string;
+  photoURL?: string;
 }
 
 const initialState: UserState = {
   displayName: "",
   email: "",
   uid: "",
+  photoURL: "",
 };
 
 const authSlice = createSlice({
@@ -18,11 +20,17 @@ const authSlice = createSlice({
   reducers: {
     setUser: (
       state,
-      action: PayloadAction<{ uid: string; displayName: string; email: string }>
+      action: PayloadAction<{
+        uid: string;
+        displayName: string;
+        email: string;
+        photoURL?: string;
+      }>
     ) => {
       state.uid = action.payload.uid;
       state.email = action.payload.email;
       state.displayName = action.payload.displayName;
+      state.photoURL = action.payload.photoURL;
     },
     clearUser: (state) => {
       state.uid = "";

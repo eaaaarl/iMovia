@@ -19,7 +19,8 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.eaaaarl.imovia",
-      "permissions": ["INTERNET"]
+      "permissions": ["INTERNET"],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -36,7 +37,9 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-web-browser",
+      ["@react-native-google-signin/google-signin"]
     ],
     "experiments": {
       "typedRoutes": true
