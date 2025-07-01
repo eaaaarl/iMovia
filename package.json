@@ -3,7 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME=192.168.1.8 expo start -c --port=8082",
+    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME=172.20.10.2 expo start -c --port=8082",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
     "ios": "expo run:ios",

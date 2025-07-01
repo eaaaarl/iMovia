@@ -96,7 +96,6 @@ export default function EmailPasswordAuth() {
         <View className="flex-1 h-[1px] bg-white/10" />
       </View>
 
-      <GoogleSignInButton />
 
       <View className="w-full flex justify-center items-center my-4">
         <TouchableOpacity
