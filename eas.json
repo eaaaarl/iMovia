@@ -8,7 +8,8 @@
       "developmentClient": true,
       "distribution": "internal"
     },
-    "local-prod-android": {
+    "production": {
+      "autoIncrement": true,
       "distribution": "internal",
       "android": {
         "buildType": "apk"
